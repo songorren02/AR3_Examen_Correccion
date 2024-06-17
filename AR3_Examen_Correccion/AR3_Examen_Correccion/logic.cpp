@@ -2,7 +2,31 @@
 #include <iostream>
 #include <vector>
 
+void PalabrasCorrectas(std::string* palabras, short ronda, std::vector<std::string>& palabrasCorrectas) {
+	//Defino las palabras correctas para cada palabra
 
+	switch (ronda) {
+		//Primera ronda SALMON
+	case 0:
+		palabrasCorrectas.push_back("SAL");
+		palabrasCorrectas.push_back("SALON");
+		palabrasCorrectas.push_back("SOLA");
+		break;
+		//Segunda ronda PUERTO
+	case 1:
+		palabrasCorrectas.push_back("PUTO");
+		palabrasCorrectas.push_back("PERO");
+		palabrasCorrectas.push_back("PETO");
+		break;
+		//Tercera ronda PANTALLA
+	case 2:
+		palabrasCorrectas.push_back("PAN");
+		palabrasCorrectas.push_back("TALLA");
+		palabrasCorrectas.push_back("LLANTA");
+		palabrasCorrectas.push_back("LATA");
+		break;
+	}
+}
 
 void DesordenarPalabra(std::string* palabras, short ronda, std::vector<std::string>& palabrasCorrectas) {
 	short desorden;
