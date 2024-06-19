@@ -1,4 +1,5 @@
 #define AMOUNT_PALABRAS 3
+#define RONDA_MAX 2
 #include <iostream>
 #include <vector>
 
@@ -42,9 +43,6 @@ void DesordenarPalabra(std::string* palabras, short ronda, std::vector<std::stri
 	//Inicializar rand
 	srand(time(NULL));
 
-	//Inicializar las palabras correctas
-	PalabrasCorrectas(palabras, ronda, palabrasCorrectas);
-
 	//Desordeno la palabra de la ronda
 	for (short j = 0; j < palabras[ronda].size(); j++) {
 		desorden = rand() % palabras[ronda].size();
@@ -67,14 +65,29 @@ void DesordenarPalabra(std::string* palabras, short ronda, std::vector<std::stri
 }
 
 void Input(std::string* palabra) {
+	char letra;
+	std::string palabratmp;
+
 	std::cout << "Introduce una palabra: " << std::endl;
 	std::cin >> *palabra;
 
+	palabratmp = *palabra;
 
+	//Recorro la palabra
+	for (short j = 0; j < palabratmp.length(); j++) {
+		letra = palabratmp[j];
+		
+		//Miro si es mayuscula
+		if (letra >= 65 && letra <= 90) {
+			//Transformo la letra a minuscula
+			palabratmp[j] = letra + 32;
+		}
+	}
+	*palabra = palabratmp;
 }
 
-void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCorrectas) {
-	short intentos = 5;
+void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCorrectas, short* puntuacion) {
+	short intentos = palabrasCorrectas.size();
 	short tmpPalabrasCorrectas = palabrasCorrectas.size();
 	bool existe = false;
 	bool dicha = false;
@@ -103,6 +116,7 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 					//Ha ganado la ronda
 					if (tmpPalabrasCorrectas == 0) {
 						intentos = -1;
+						*puntuacion = *puntuacion + 1;
 
 						//Suma 1 punto
 						std::cout << "Has ganado la ronda" << std::endl;
@@ -137,10 +151,35 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 	}
 }
 
+void Victoria(short rondas, short puntuacion) {
+	if (puntuacion >= 2 && rondas == RONDA_MAX) {
+		std::cout << "Has ganado la partida" << std::endl;
+	}
+	else if(puntuacion < 2 && rondas == RONDA_MAX){
+		std::cout << "Has perdido malo :(" << std::endl;
+	}
 
-void Gameplay(std::string *palabras, std::vector<std::string> &palabrasCorrectas, std::string* palabra) {
+	if (puntuacion < 2 && rondas == RONDA_MAX) {
+		std::cout << "Has perdido malo :(" << std::endl;
+		exit;
+	}
+}
+
+void Gameplay(std::string *palabras, std::vector<std::string> &palabrasCorrectas, std::string* palabra, short* puntuacion) {
 	//Inicio de la ronda (serán 3)
 	for (short i = 0; i < AMOUNT_PALABRAS; i++) {
+
+		//Inicializo las palabras correctas
+		PalabrasCorrectas(palabras, i, palabrasCorrectas);
+
+		//Muestro las palabras a modo de debug
+		std::cout << "\nLista de palabras a adivinar" << std::endl;
+		std::cout << "----------------------------" << std::endl;
+		for (short j = 0; j < palabrasCorrectas.size(); j++) {
+			std::cout << palabrasCorrectas[j] << std::endl;
+		}
+		std::cout << "----------------------------" << std::endl;
+
 		//Desordenar palabra
 		DesordenarPalabra(&palabras[0], i, palabrasCorrectas);
 
@@ -148,10 +187,13 @@ void Gameplay(std::string *palabras, std::vector<std::string> &palabrasCorrectas
 		Input(palabra);
 
 		//Verificacion ronda
-		PalabraCorrecta(palabra, palabrasCorrectas);
+		PalabraCorrecta(palabra, palabrasCorrectas, puntuacion);
 
 		//Limpiar las palabras correctas
 		LimpiarPalabras(palabrasCorrectas);
+		
+		//Compruebo si ha ganado
+		Victoria(i, *puntuacion);
 		
 	}
 }

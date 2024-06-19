@@ -9,9 +9,10 @@ void main(){
 	
 	std::vector<std::string> palabrasCorrectas;
 	std::string palabra;
+	short puntuacion = 0;
 
 	//Inicio del juego
-	Gameplay(&palabras[0], palabrasCorrectas, &palabra);
+	Gameplay(&palabras[0], palabrasCorrectas, &palabra, &puntuacion);
 
 	
 
