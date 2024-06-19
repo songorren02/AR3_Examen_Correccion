@@ -110,6 +110,7 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 					}
 				}
 
+				//Miro si se ha dicho
 				if (!dicha) {
 					tmpPalabrasCorrectas--;
 
@@ -133,6 +134,7 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 			}
 		}
 
+		//Si no existe
 		if (!existe) {
 			intentos--;
 
@@ -151,17 +153,19 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 	}
 }
 
-void Victoria(short rondas, short puntuacion) {
-	if (puntuacion >= 2 && rondas == RONDA_MAX) {
+void Victoria(short *rondas, short puntuacion) {
+	//Compruebo que en la tercera ronda haya ganado dos por lo menos
+	if (puntuacion >= 2 && *rondas == RONDA_MAX) {
 		std::cout << "Has ganado la partida" << std::endl;
 	}
-	else if(puntuacion < 2 && rondas == RONDA_MAX){
+	else if(puntuacion < 2 && *rondas == RONDA_MAX){
 		std::cout << "Has perdido malo :(" << std::endl;
 	}
 
-	if (puntuacion < 2 && rondas == RONDA_MAX) {
+	//Si ha fallado dos seguidas no podrá seguir jugando
+	if (puntuacion == 0 && *rondas == RONDA_MAX - 1) {
 		std::cout << "Has perdido malo :(" << std::endl;
-		exit;
+		*rondas = RONDA_MAX;
 	}
 }
 
@@ -193,7 +197,7 @@ void Gameplay(std::string *palabras, std::vector<std::string> &palabrasCorrectas
 		LimpiarPalabras(palabrasCorrectas);
 		
 		//Compruebo si ha ganado
-		Victoria(i, *puntuacion);
+		Victoria(&i, *puntuacion);
 		
 	}
 }
