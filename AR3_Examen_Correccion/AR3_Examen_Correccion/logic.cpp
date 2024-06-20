@@ -124,7 +124,7 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 					}
 					else {
 
-						//AÒadir a las palabras dichas
+						//A√±adir a las palabras dichas
 						palabrasAcertadas.push_back(*palabra);
 
 						std::cout << "Palabra correcta, quedan " << tmpPalabrasCorrectas << " palabras para acertar y " << intentos << " intentos, " << std::endl;
@@ -150,6 +150,7 @@ void PalabraCorrecta(std::string* palabra, std::vector<std::string>& palabrasCor
 		}
 
 		existe = false;
+		dicha = false;
 	}
 }
 
@@ -162,7 +163,7 @@ void Victoria(short *rondas, short puntuacion) {
 		std::cout << "Has perdido malo :(" << std::endl;
 	}
 
-	//Si ha fallado dos seguidas no podr· seguir jugando
+	//Si ha fallado dos seguidas no podr√° seguir jugando
 	if (puntuacion == 0 && *rondas == RONDA_MAX - 1) {
 		std::cout << "Has perdido malo :(" << std::endl;
 		*rondas = RONDA_MAX;
@@ -170,7 +171,7 @@ void Victoria(short *rondas, short puntuacion) {
 }
 
 void Gameplay(std::string *palabras, std::vector<std::string> &palabrasCorrectas, std::string* palabra, short* puntuacion) {
-	//Inicio de la ronda (ser·n 3)
+	//Inicio de la ronda (ser√°n 3)
 	for (short i = 0; i < AMOUNT_PALABRAS; i++) {
 
 		//Inicializo las palabras correctas
